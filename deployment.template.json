@@ -63,7 +63,8 @@
       "properties.desired": {
         "schemaVersion": "1.0",
         "routes": {
-          "sensorToTestCModule": "FROM /messages/modules/tempSensor/outputs/temperatureOutput INTO BrokeredEndpoint(\"/modules/TestCModule/inputs/input1\")",
+          "sensorToIoTHub": "FROM /messages/modules/tempSensor/outputs/temperatureOutput INTO $upstream",
+          "sensorToTestCModule": "FROM /messages/modules/tempSensor/outputs/* INTO BrokeredEndpoint(\"/modules/TestCModule/inputs/input1\")",
           "TestCModuleToIoTHub": "FROM /messages/modules/TestCModule/outputs/output1 INTO $upstream"
         },
         "storeAndForwardConfiguration": {
@@ -73,7 +74,7 @@
     },
     "TestCModule": {
       "properties.desired":{
-          "TemperatureThreshold":21
+          "TemperatureThreshold":22
       }
     }
   }

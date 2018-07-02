@@ -77,23 +77,28 @@ namespace TestCModule
             // await ioTHubModuleClient.SetImputMessageHandlerAsync("input1", PipeMessage, iotHubModuleClient);
 
             // Read TemperatureThreshold from Module Twin Desired Properties
-            var moduleTwin = await ioTHubModuleClient.GetTwinAsync();
-            var moduleTwinCollection = moduleTwin.Properties.Desired;
-            try {
-                temperatureThreshold = moduleTwinCollection["TemperatureThreshold"];
-            } catch(ArgumentOutOfRangeException e) {
-                Console.WriteLine($"Property TemperatureThreshold not exist: {e.Message}"); 
-            }
+            // var moduleTwin = await ioTHubModuleClient.GetTwinAsync();
+            // var moduleTwinCollection = moduleTwin.Properties.Desired;
+            // try {
+            //     temperatureThreshold = moduleTwinCollection["TemperatureThreshold"];
+            // } catch(ArgumentOutOfRangeException e) {
+            //     Console.WriteLine($"Property TemperatureThreshold not exist: {e.Message}"); 
+            // }
 
             // Attach callback for Twin desired properties updates
-            await ioTHubModuleClient.SetDesiredPropertyUpdateCallbackAsync(onDesiredPropertiesUpdate, null);
+            //await ioTHubModuleClient.SetDesiredPropertyUpdateCallbackAsync(onDesiredPropertiesUpdate, null);
 
             // Register callback to be called when a message is received by the module
             await ioTHubModuleClient.SetInputMessageHandlerAsync("input1", FilterMessages, ioTHubModuleClient);
+        
+            Console.WriteLine("Done setting up callbacks.");
         }
 
         static async Task<MessageResponse> FilterMessages(Message message, object userContext)
         {
+
+        Console.WriteLine($"Received message");
+
             var counterValue = Interlocked.Increment(ref counter);
             try
             {
